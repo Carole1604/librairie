@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recherche Avancée</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Recherche Avancée</h2>
+    <form method="get" th:action="@{/recherche}" class="mb-4">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="titre" class="form-label">Titre</label>
+                <input type="text" class="form-control" id="titre" name="titre" th:value="${titre}">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="auteur" class="form-label">Auteur</label>
+                <input type="text" class="form-control" id="auteur" name="auteur" th:value="${auteur}">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="langue" class="form-label">Langue</label>
+                <input type="text" class="form-control" id="langue" name="langue" th:value="${langue}">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="categorie" class="form-label">Catégorie</label>
+                <input type="text" class="form-control" id="categorie" name="categorie" th:value="${categorie}">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+    <div th:if="${resultats != null and #lists.size(resultats) > 0}">
+        <h4>Résultats</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Langue</th>
+                <th>Catégorie</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="livre : ${resultats}">
+                <td th:text="${livre.id}"></td>
+                <td th:text="${livre.titre}"></td>
+                <td th:text="${livre.auteur}"></td>
+                <td>
+                    <span th:each="desc : ${livre.descriptions}" th:text="${desc.langue}"></span>
+                </td>
+                <td>
+                    <span th:each="desc : ${livre.descriptions}" th:text="${desc.categorie}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${resultats == null or #lists.isEmpty(resultats)}">
+        <div class="alert alert-info">Aucun résultat pour cette recherche.</div>
+    </div>
+</div>
+</body>
+</html> 

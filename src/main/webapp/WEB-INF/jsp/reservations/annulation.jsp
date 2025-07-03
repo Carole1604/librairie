@@ -1,0 +1,30 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Annulation Réservation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Annulation d'une Réservation</h2>
+    <form action="/reservations/annulation" method="post">
+        <input type="hidden" name="id" value="${reservation.id}" />
+        <div class="mb-3">
+            <label class="form-label">Adhérent</label>
+            <input type="text" class="form-control" value="${reservation.adherent.nom} ${reservation.adherent.prenom}" disabled>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Livre</label>
+            <input type="text" class="form-control" value="${reservation.livre.titre}" disabled>
+        </div>
+        <div class="mb-3">
+            <label for="motifAnnulation" class="form-label">Motif d'annulation</label>
+            <input type="text" class="form-control" id="motifAnnulation" name="motifAnnulation">
+        </div>
+        <button type="submit" class="btn btn-danger">Annuler la réservation</button>
+        <a href="/reservations/liste" class="btn btn-secondary">Retour</a>
+    </form>
+</div>
+</body>
+</html> 

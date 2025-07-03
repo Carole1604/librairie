@@ -1,0 +1,25 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer une Réservation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Créer une Réservation</h2>
+    <form action="/reservations/creation" method="post">
+        <div class="mb-3">
+            <label for="idAdherent" class="form-label">ID Adhérent</label>
+            <input type="number" class="form-control" id="idAdherent" name="adherent.id" required>
+        </div>
+        <div class="mb-3">
+            <label for="idLivre" class="form-label">ID Livre</label>
+            <input type="number" class="form-control" id="idLivre" name="livre.id" required>
+        </div>
+        <button type="submit" class="btn btn-success">Créer</button>
+        <a href="/reservations/liste" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+</body>
+</html> 
