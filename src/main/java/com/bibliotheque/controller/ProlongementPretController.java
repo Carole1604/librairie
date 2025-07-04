@@ -13,6 +13,16 @@ public class ProlongementPretController {
     @Autowired
     private ProlongementPretService prolongementPretService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/prolongements/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/prolongements/liste";
+    }
+
     @GetMapping("/liste")
     public String listeProlongements(Model model) {
         model.addAttribute("prolongements", prolongementPretService.findAll());

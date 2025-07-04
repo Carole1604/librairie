@@ -19,6 +19,16 @@ public class ExemplaireController {
     @Autowired
     private LivreService livreService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/livres/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/livres/liste";
+    }
+
     @GetMapping("/liste/{livreId}")
     public String listeExemplaires(@PathVariable Integer livreId, Model model) {
         Livre livre = livreService.findById(livreId).orElse(null);

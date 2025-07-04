@@ -13,6 +13,16 @@ public class PenaliteController {
     @Autowired
     private PenaliteService penaliteService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/penalites/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/penalites/liste";
+    }
+
     @GetMapping("/liste")
     public String listePenalites(Model model) {
         model.addAttribute("penalites", penaliteService.findAll());

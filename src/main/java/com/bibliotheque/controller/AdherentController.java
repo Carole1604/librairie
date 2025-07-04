@@ -13,6 +13,16 @@ public class AdherentController {
     @Autowired
     private AdherentService adherentService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/adherents/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/adherents/liste";
+    }
+
     @GetMapping("/liste")
     public String listeAdherents(Model model) {
         model.addAttribute("adherents", adherentService.findAll());
