@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tableau de Bord Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        .sidebar .nav-link {
+            color: #333;
+            font-weight: 500;
+        }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background: #e9ecef;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Bibliothèque - Portail Admin</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/deconnexion">Déconnexion</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar p-0">
+            <nav class="nav flex-column p-3">
+                <a href="/tableau_de_bord" class="nav-link active">Tableau de bord</a>
+                <a href="/livres" class="nav-link">Livres</a>
+                <a href="/adherents" class="nav-link">Adhérents</a>
+                <a href="/exemplaires" class="nav-link">Exemplaires</a>
+                <a href="/prets" class="nav-link">Prêts</a>
+                <a href="/reservations" class="nav-link">Réservations</a>
+                <a href="/penalites" class="nav-link">Pénalités</a>
+                <a href="/prolongements" class="nav-link">Prolongements</a>
+                <a href="/parametrage" class="nav-link">Paramétrage</a>
+                <a href="/recherche" class="nav-link">Recherche</a>
+                <a href="/jour_ferie" class="nav-link">Jours fériés</a>
+                <a href="/descriptions" class="nav-link">Descriptions</a>
+            </nav>
+        </div>
+        <!-- Main content -->
+        <div class="col-md-10">
+            <h2>Tableau de Bord Administrateur</h2>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Adhérents</h5>
+                            <p class="card-text display-6 text-primary">0</p>
+                            <a href="/adherents" class="btn btn-sm btn-primary">Gérer</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Livres</h5>
+                            <p class="card-text display-6 text-success">0</p>
+                            <a href="/livres" class="btn btn-sm btn-success">Gérer</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Prêts en cours</h5>
+                            <p class="card-text display-6 text-warning">0</p>
+                            <a href="/prets" class="btn btn-sm btn-warning">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Réservations</h5>
+                            <p class="card-text display-6 text-info">0</p>
+                            <a href="/reservations" class="btn btn-sm btn-info">Voir</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Pénalités actives</h5>
+                            <p class="card-text display-6 text-danger">0</p>
+                            <a href="/penalites" class="btn btn-sm btn-danger">Gérer</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Prolongements</h5>
+                            <p class="card-text display-6 text-secondary">0</p>
+                            <a href="/prolongements" class="btn btn-sm btn-secondary">Gérer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

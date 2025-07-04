@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recherche</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Recherche</h2>
+    <form th:action="@{/recherche}" method="get">
+        <div class="mb-3">
+            <input type="text" class="form-control" name="critere" placeholder="Votre recherche..." required>
+        </div>
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+    <div th:if="${resultats}">
+        <h4 class="mt-4">Résultats :</h4>
+        <ul>
+            <li th:each="r : ${resultats}" th:text="${r}"></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
