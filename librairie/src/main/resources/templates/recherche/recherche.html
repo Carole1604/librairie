@@ -8,17 +8,11 @@
 <div class="container mt-5">
     <h2>Recherche</h2>
     <form th:action="@{/recherche}" method="get" class="row g-3">
-        <div class="col-md-3">
+        <div class="col-md-5">
             <input type="text" class="form-control" name="titre" th:value="${titre}" placeholder="Titre">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-5">
             <input type="text" class="form-control" name="auteur" th:value="${auteur}" placeholder="Auteur">
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" name="langue" th:value="${langue}" placeholder="Langue">
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" name="categorie" th:value="${categorie}" placeholder="Catégorie">
         </div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary w-100">Rechercher</button>
@@ -31,8 +25,6 @@
                 <tr>
                     <th>Titre</th>
                     <th>Auteur</th>
-                    <th>Langue</th>
-                    <th>Catégorie</th>
                     <th>ISBN</th>
                 </tr>
             </thead>
@@ -40,8 +32,6 @@
                 <tr th:each="dto : ${resultats}">
                     <td th:text="${dto.livre.titre}"></td>
                     <td th:text="${dto.livre.auteur}"></td>
-                    <td th:text="${dto.langue}"></td>
-                    <td th:text="${dto.categorie}"></td>
                     <td th:text="${dto.livre.isbn}"></td>
                 </tr>
             </tbody>

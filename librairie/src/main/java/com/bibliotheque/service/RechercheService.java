@@ -18,9 +18,9 @@ public class RechercheService {
     private DescriptionRepository descriptionRepository;
 
     public static class LivreDescriptionDTO {
-        public final Livre livre;
-        public final String langue;
-        public final String categorie;
+        public Livre livre;
+        public String langue;
+        public String categorie;
         public LivreDescriptionDTO(Livre livre, String langue, String categorie) {
             this.livre = livre;
             this.langue = langue;

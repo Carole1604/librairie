@@ -9,6 +9,7 @@ com\bibliotheque\model\Livre.class
 com\bibliotheque\service\TableauDeBordService.class
 com\bibliotheque\controller\TableauDeBordController.class
 com\bibliotheque\controller\ParametrageController.class
+com\bibliotheque\service\RechercheService$LivreDescriptionDTO.class
 com\bibliotheque\service\ParametrageGeneralService.class
 com\bibliotheque\controller\ProlongementPretController.class
 com\bibliotheque\controller\PenaliteController.class
