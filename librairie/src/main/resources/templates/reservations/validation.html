@@ -9,6 +9,9 @@
     <h2>Validation d'une Réservation</h2>
     <form th:action="@{/reservations/validation}" method="post">
         <input type="hidden" name="id" th:value="${reservation.id}" />
+        <input type="hidden" name="adherent.id" th:value="${reservation.adherent.id}" />
+        <input type="hidden" name="livre.id" th:value="${reservation.livre.id}" />
+        <input type="hidden" name="dateReservation" th:value="${reservation.dateReservation}" />
         <div class="mb-3">
             <label class="form-label">Adhérent</label>
             <input type="text" class="form-control" th:value="${reservation.adherent.nom + ' ' + reservation.adherent.prenom}" disabled>

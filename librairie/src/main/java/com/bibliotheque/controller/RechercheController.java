@@ -23,7 +23,7 @@ public class RechercheController {
                             @RequestParam(required = false) String langue,
                             @RequestParam(required = false) String categorie,
                             Model model) {
-        List<Livre> resultats = rechercheService.rechercheLivres(titre, auteur, langue, categorie);
+        List<RechercheService.LivreDescriptionDTO> resultats = rechercheService.rechercheLivres(titre, auteur, langue, categorie);
         model.addAttribute("resultats", resultats);
         model.addAttribute("titre", titre);
         model.addAttribute("auteur", auteur);

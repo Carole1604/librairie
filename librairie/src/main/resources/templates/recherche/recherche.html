@@ -7,17 +7,45 @@
 <body>
 <div class="container mt-5">
     <h2>Recherche</h2>
-    <form th:action="@{/recherche}" method="get">
-        <div class="mb-3">
-            <input type="text" class="form-control" name="critere" placeholder="Votre recherche..." required>
+    <form th:action="@{/recherche}" method="get" class="row g-3">
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="titre" th:value="${titre}" placeholder="Titre">
         </div>
-        <button type="submit" class="btn btn-primary">Rechercher</button>
+        <div class="col-md-3">
+            <input type="text" class="form-control" name="auteur" th:value="${auteur}" placeholder="Auteur">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="langue" th:value="${langue}" placeholder="Langue">
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="categorie" th:value="${categorie}" placeholder="Catégorie">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+        </div>
     </form>
     <div th:if="${resultats}">
         <h4 class="mt-4">Résultats :</h4>
-        <ul>
-            <li th:each="r : ${resultats}" th:text="${r}"></li>
-        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Langue</th>
+                    <th>Catégorie</th>
+                    <th>ISBN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dto : ${resultats}">
+                    <td th:text="${dto.livre.titre}"></td>
+                    <td th:text="${dto.livre.auteur}"></td>
+                    <td th:text="${dto.langue}"></td>
+                    <td th:text="${dto.categorie}"></td>
+                    <td th:text="${dto.livre.isbn}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

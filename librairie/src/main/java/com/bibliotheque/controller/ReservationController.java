@@ -50,7 +50,13 @@ public class ReservationController {
 
     @PostMapping("/validation")
     public String validerReservation(@ModelAttribute Reservation reservation) {
-        reservationService.save(reservation);
+        Reservation existing = reservationService.findById(reservation.getId()).orElse(null);
+        if (existing != null) {
+            // Met à jour seulement les champs de validation
+            existing.setStatut(reservation.getStatut());
+            // Ajoute ici d'autres champs modifiables si besoin
+            reservationService.save(existing);
+        }
         return "redirect:/reservations/liste";
     }
 
