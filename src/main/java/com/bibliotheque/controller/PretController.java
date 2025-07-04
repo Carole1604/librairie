@@ -23,6 +23,16 @@ public class PretController {
     @Autowired
     private ExemplaireService exemplaireService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/prets/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/prets/liste";
+    }
+
     @GetMapping("/liste")
     public String listePrets(Model model) {
         model.addAttribute("prets", pretService.findAll());

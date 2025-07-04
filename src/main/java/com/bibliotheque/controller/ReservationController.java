@@ -13,6 +13,16 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/reservations/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/reservations/liste";
+    }
+
     @GetMapping("/liste")
     public String listeReservations(Model model) {
         model.addAttribute("reservations", reservationService.findAll());

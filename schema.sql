@@ -17,20 +17,31 @@ DROP TABLE IF EXISTS tableau_de_bord CASCADE;
 
 -- Table Statut (pour les prêts et réservations)
 CREATE TABLE statut (
-    id_statut INT SERIAL PRIMARY KEY,
+    id_statut SERIAL PRIMARY KEY,
     nom_statut VARCHAR(50) NOT NULL UNIQUE CHECK (nom_statut IN ('en_cours', 'valide', 'refuse'))
 );
 
 -- Table Jour_ferie
 CREATE TABLE jour_ferie (
-    id_jour_ferie INT SERIAL PRIMARY KEY,
+    id_jour_ferie SERIAL PRIMARY KEY,
     nom_jour_ferie VARCHAR(100) NOT NULL,
     date_ferie DATE NOT NULL UNIQUE
 );
 
+-- Table Administrateur
+CREATE TABLE administrateur (
+    id_administrateur SERIAL PRIMARY KEY,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    email VARCHAR(150),
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Table Adherent
 CREATE TABLE adherent (
-    id_adherent INT SERIAL PRIMARY KEY,
+    id_adherent SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     prenom VARCHAR(100) NOT NULL,
     login VARCHAR(50) NOT NULL UNIQUE,
@@ -53,7 +64,7 @@ CREATE TABLE adherent (
 
 -- Table Inscription
 CREATE TABLE inscription (
-    id_inscription INT SERIAL PRIMARY KEY,
+    id_inscription SERIAL PRIMARY KEY,
     id_adherent INT NOT NULL REFERENCES adherent(id_adherent) ON DELETE CASCADE,
     date_inscription DATE NOT NULL DEFAULT CURRENT_DATE,
     statut_inscription VARCHAR(20) DEFAULT 'actif' CHECK (statut_inscription IN ('actif', 'suspendu', 'expire'))
@@ -61,9 +72,9 @@ CREATE TABLE inscription (
 
 -- Table Livre
 CREATE TABLE livre (
-    id_livre INT SERIAL PRIMARY KEY,
+    id_livre SERIAL PRIMARY KEY,
     titre VARCHAR(255) NOT NULL,
-    isbn INT UNIQUE,
+    isbn VARCHAR(20) UNIQUE,
     edition VARCHAR(100),
     auteur VARCHAR(255) NOT NULL,
     annee_publication INT CHECK (annee_publication > 0 AND annee_publication <= EXTRACT(YEAR FROM CURRENT_DATE)),
@@ -74,7 +85,7 @@ CREATE TABLE livre (
 
 -- Table Description (informations supplémentaires sur les livres)
 CREATE TABLE description (
-    id_description INT SERIAL PRIMARY KEY,
+    id_description SERIAL PRIMARY KEY,
     id_livre INT NOT NULL REFERENCES livre(id_livre) ON DELETE CASCADE,
     resume TEXT,
     langue VARCHAR(50) DEFAULT 'Français',
@@ -85,7 +96,7 @@ CREATE TABLE description (
 
 -- Table Exemplaire
 CREATE TABLE exemplaire (
-    id_exemplaire INT SERIAL PRIMARY KEY,
+    id_exemplaire SERIAL PRIMARY KEY,
     nom_exemplaire VARCHAR(100) NOT NULL,
     id_livre INT NOT NULL REFERENCES livre(id_livre) ON DELETE CASCADE,
     etat VARCHAR(20) DEFAULT 'disponible' CHECK (etat IN ('disponible', 'emprunte', 'reserve', 'en_reparation', 'perdu', 'retire')),
@@ -96,7 +107,7 @@ CREATE TABLE exemplaire (
 
 -- Table Reservation
 CREATE TABLE reservation (
-    id_reservation INT SERIAL PRIMARY KEY,
+    id_reservation SERIAL PRIMARY KEY,
     id_adherent INT NOT NULL REFERENCES adherent(id_adherent) ON DELETE CASCADE,
     id_livre INT NOT NULL REFERENCES livre(id_livre) ON DELETE CASCADE,
     date_reservation DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -111,7 +122,7 @@ CREATE TABLE reservation (
 
 -- Table Pret
 CREATE TABLE pret (
-    id_pret INT SERIAL PRIMARY KEY,
+    id_pret SERIAL PRIMARY KEY,
     type_pret VARCHAR(20) DEFAULT 'domicile' CHECK (type_pret IN ('domicile', 'sur_lieu')),
     date_debut DATE NOT NULL DEFAULT CURRENT_DATE,
     date_fin_prevue DATE NOT NULL,
@@ -130,7 +141,7 @@ CREATE TABLE pret (
 
 -- Table Prolongement_pret
 CREATE TABLE prolongement_pret (
-    id_prolongement INT SERIAL PRIMARY KEY,
+    id_prolongement SERIAL PRIMARY KEY,
     id_pret INT NOT NULL REFERENCES pret(id_pret) ON DELETE CASCADE,
     date_demande DATE NOT NULL DEFAULT CURRENT_DATE,
     nouvelle_date_rendu DATE NOT NULL,
@@ -146,7 +157,7 @@ CREATE TABLE prolongement_pret (
 
 -- Table Penalite
 CREATE TABLE penalite (
-    id_penalite INT SERIAL PRIMARY KEY,
+    id_penalite SERIAL PRIMARY KEY,
     date_debut DATE NOT NULL,
     date_fin DATE NOT NULL,
     id_pret INT NOT NULL REFERENCES pret(id_pret) ON DELETE CASCADE,
@@ -161,7 +172,7 @@ CREATE TABLE penalite (
 
 -- Table Tableau_de_bord (statistiques)
 CREATE TABLE tableau_de_bord (
-    id_statistique INT SERIAL PRIMARY KEY,
+    id_statistique SERIAL PRIMARY KEY,
     date_stat DATE NOT NULL DEFAULT CURRENT_DATE,
     nombre_prets INT DEFAULT 0 CHECK (nombre_prets >= 0),
     nombre_retours INT DEFAULT 0 CHECK (nombre_retours >= 0),
@@ -175,24 +186,24 @@ CREATE TABLE tableau_de_bord (
 -- Insertion des données de base
 
 -- Statuts
-INSERT INTO statut (id_statut, nom_statut) VALUES 
-(1, 'en_cours'),
-(2, 'valide'),
-(3, 'refuse');
+INSERT INTO statut (nom_statut) VALUES 
+('en_cours'),
+('valide'),
+('refuse');
 
 -- Quelques jours fériés français pour exemple
-INSERT INTO jour_ferie (id_jour_ferie, nom_jour_ferie, date_ferie) VALUES 
-(1, 'Nouvel An', '2025-01-01'),
-(2, 'Lundi de Pâques', '2025-04-21'),
-(3, 'Fête du Travail', '2025-05-01'),
-(4, 'Victoire 1945', '2025-05-08'),
-(5, 'Ascension', '2025-05-29'),
-(6, 'Lundi de Pentecôte', '2025-06-09'),
-(7, 'Fête Nationale', '2025-07-14'),
-(8, 'Assomption', '2025-08-15'),
-(9, 'Toussaint', '2025-11-01'),
-(10, 'Armistice 1918', '2025-11-11'),
-(11, 'Noël', '2025-12-25');
+INSERT INTO jour_ferie (nom_jour_ferie, date_ferie) VALUES 
+('Nouvel An', '2025-01-01'),
+('Lundi de Pâques', '2025-04-21'),
+('Fête du Travail', '2025-05-01'),
+('Victoire 1945', '2025-05-08'),
+('Ascension', '2025-05-29'),
+('Lundi de Pentecôte', '2025-06-09'),
+('Fête Nationale', '2025-07-14'),
+('Assomption', '2025-08-15'),
+('Toussaint', '2025-11-01'),
+('Armistice 1918', '2025-11-11'),
+('Noël', '2025-12-25');
 
 
 

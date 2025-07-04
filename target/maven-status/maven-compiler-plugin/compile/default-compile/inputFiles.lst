@@ -9,11 +9,15 @@ D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\controller\Parametrag
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\repository\JourFerieRepository.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\service\RechercheService.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\controller\LivreController.java
+D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\repository\AdministrateurRepository.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\model\Adherent.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\model\Pret.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\model\Reservation.java
+D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\model\Administrateur.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\service\ProlongementPretService.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\controller\TableauDeBordController.java
+D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\controller\CustomErrorController.java
+D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\service\AuthentificationService.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\model\Penalite.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\controller\PortailAdherentController.java
 D:\prog\Librairie\librairie\src\main\java\com\bibliotheque\repository\InscriptionRepository.java

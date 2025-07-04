@@ -13,6 +13,16 @@ public class LivreController {
     @Autowired
     private LivreService livreService;
 
+    @GetMapping("")
+    public String index() {
+        return "redirect:/livres/liste";
+    }
+
+    @GetMapping("/")
+    public String indexSlash() {
+        return "redirect:/livres/liste";
+    }
+
     @GetMapping("/liste")
     public String listeLivres(Model model) {
         model.addAttribute("livres", livreService.findAll());
