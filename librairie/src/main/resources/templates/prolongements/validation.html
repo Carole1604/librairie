@@ -9,6 +9,7 @@
     <h2>Validation d'une Demande de Prolongement</h2>
     <form th:action="@{/prolongements/validation}" method="post">
         <input type="hidden" name="id" th:value="${prolongement.id}" />
+        <input type="hidden" name="pret.id" th:value="${prolongement.pret.id}" />
         <div class="mb-3">
             <label class="form-label">ID Prêt</label>
             <input type="text" class="form-control" th:value="${prolongement.pret.id}" disabled>

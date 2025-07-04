@@ -8,7 +8,7 @@
 <div class="container mt-5">
     <h2>Paramétrage Général</h2>
     <p class="text-muted">Configurez les durées de prêt et les limites d'emprunt.</p>
-    <form th:action="@{/parametrage}" th:object="${parametrage}" method="post" class="mt-4">
+    <form th:action="@{/parametrage-general}" th:object="${parametrage}" method="post" class="mt-4">
         <div class="mb-3">
             <label for="dureePret" class="form-label">Durée de prêt (jours)</label>
             <input type="number" class="form-control" id="dureePret" th:field="*{dureePret}" min="1" required>

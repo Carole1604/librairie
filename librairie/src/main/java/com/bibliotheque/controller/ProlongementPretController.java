@@ -50,7 +50,15 @@ public class ProlongementPretController {
 
     @PostMapping("/validation")
     public String validerProlongement(@ModelAttribute ProlongementPret prolongementPret) {
-        prolongementPretService.save(prolongementPret);
+        // Récupérer le prolongement existant pour préserver les champs obligatoires
+        ProlongementPret existingProlongement = prolongementPretService.findById(prolongementPret.getId()).orElse(null);
+        if (existingProlongement != null) {
+            // Mettre à jour seulement les champs de validation
+            existingProlongement.setStatut(prolongementPret.getStatut());
+            existingProlongement.setMotifRefus(prolongementPret.getMotifRefus());
+            existingProlongement.setDateValidation(java.time.LocalDate.now());
+            prolongementPretService.save(existingProlongement);
+        }
         return "redirect:/prolongements/liste";
     }
 } 

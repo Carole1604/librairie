@@ -28,4 +28,9 @@ public class ParametrageGeneralController {
         model.addAttribute("success", "Paramétrage mis à jour !");
         return "parametrage/index";
     }
+
+    @GetMapping("/parametrage")
+    public String redirectToGeneral() {
+        return "redirect:/parametrage-general";
+    }
 } 

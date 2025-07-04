@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ParametrageController {
     @GetMapping("")
     public String index() {
-        return "parametrage/index";
+        return "redirect:/parametrage-general";
     }
 
     @GetMapping("/")
     public String indexSlash() {
-        return "parametrage/index";
+        return "redirect:/parametrage-general";
     }
 
     @GetMapping("/durees_pret")

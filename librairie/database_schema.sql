@@ -183,3 +183,14 @@ CREATE TABLE tableau_de_bord (
     nombre_livres_disponibles INT DEFAULT 0 CHECK (nombre_livres_disponibles >= 0),
     UNIQUE(date_stat)
 ); 
+
+-- Création de la table parametrage_general
+CREATE TABLE parametrage_general (
+    id SERIAL PRIMARY KEY,
+    duree_pret INTEGER NOT NULL,
+    limite_emprunt INTEGER NOT NULL
+);
+
+-- Insertion d'une ligne par défaut (optionnel)
+INSERT INTO parametrage_general (duree_pret, limite_emprunt) 
+VALUES (14, 5);
