@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Paramétrage des Limites d'Emprunt</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-list-check"></i> Configuration des Limites d'Emprunt</h2>
+        <div>
+            <a href="/parametrage/durees_pret" class="btn btn-outline-primary me-2">
+                <i class="bi bi-clock"></i> Durées de prêt
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="bi bi-house"></i> Accueil
+            </a>
+        </div>
+    </div>
+
+    <!-- Messages de succès/erreur -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-gear"></i> Quotas maximum par type d'adhérent
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/parametrage/limites_emprunt}" method="post" th:object="${parametrage}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white text-center">
+                                        <i class="bi bi-mortarboard"></i> Étudiant
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <label class="form-label">Quota maximum</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control text-center" 
+                                                       th:field="*{quotaMaxEtudiant}" 
+                                                       min="1" max="20" 
+                                                       placeholder="5">
+                                                <span class="input-group-text">livres</span>
+                                            </div>
+                                            <small class="text-muted">Par défaut : 5 livres</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white text-center">
+                                        <i class="bi bi-briefcase"></i> Professionnel
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <label class="form-label">Quota maximum</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control text-center" 
+                                                       th:field="*{quotaMaxProfessionnel}" 
+                                                       min="1" max="20" 
+                                                       placeholder="8">
+                                                <span class="input-group-text">livres</span>
+                                            </div>
+                                            <small class="text-muted">Par défaut : 8 livres</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card border-warning">
+                                    <div class="card-header bg-warning text-dark text-center">
+                                        <i class="bi bi-person"></i> Anonyme
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <label class="form-label">Quota maximum</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control text-center" 
+                                                       th:field="*{quotaMaxAnonyme}" 
+                                                       min="1" max="10" 
+                                                       placeholder="2">
+                                                <span class="input-group-text">livres</span>
+                                            </div>
+                                            <small class="text-muted">Par défaut : 2 livres</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <div>
+                                <button type="submit" class="btn btn-success me-2">
+                                    <i class="bi bi-save"></i> Enregistrer les modifications
+                                </button>
+                                <form th:action="@{/parametrage/mettre-a-jour-quotas}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-warning" 
+                                            onclick="return confirm('Êtes-vous sûr de vouloir mettre à jour les quotas de tous les adhérents existants ?')">
+                                        <i class="bi bi-arrow-clockwise"></i> Mettre à jour tous les quotas
+                                    </button>
+                                </form>
+                            </div>
+                            <a href="/" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-info-circle"></i> Informations
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6>Types d'adhérents :</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-mortarboard text-primary"></i> <strong>Étudiant :</strong> Quota modéré</li>
+                        <li><i class="bi bi-briefcase text-success"></i> <strong>Professionnel :</strong> Quota élevé</li>
+                        <li><i class="bi bi-person text-warning"></i> <strong>Anonyme :</strong> Quota limité</li>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <h6>Règles de gestion :</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle text-success"></i> Le quota actuel est vérifié lors de chaque emprunt</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Le quota se met à jour automatiquement</li>
+                        <li><i class="bi bi-check-circle text-success"></i> Les adhérents existants conservent leur quota actuel</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle"></i> Attention
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <p class="mb-0">
+                        <small>
+                            La modification des quotas n'affecte que les nouveaux adhérents. 
+                            Pour mettre à jour les quotas des adhérents existants, 
+                            utilisez le bouton "Mettre à jour tous les quotas".
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

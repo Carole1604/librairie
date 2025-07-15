@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Paramétrage Général</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Paramétrage Général</h2>
+    <p class="text-muted">Configurez les durées de prêt et les limites d'emprunt.</p>
+    <form th:action="@{/parametrage-general}" th:object="${parametrage}" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="dureePret" class="form-label">Durée de prêt (jours)</label>
+            <input type="number" class="form-control" id="dureePret" th:field="*{dureePret}" min="1" required>
+        </div>
+        <div class="mb-3">
+            <label for="limiteEmprunt" class="form-label">Limite d'emprunt (livres)</label>
+            <input type="number" class="form-control" id="limiteEmprunt" th:field="*{limiteEmprunt}" min="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <div th:if="${success}" class="alert alert-success mt-3" th:text="${success}"></div>
+    </form>
+</div>
+</body>
+</html> 
