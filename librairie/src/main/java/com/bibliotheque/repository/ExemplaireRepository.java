@@ -7,4 +7,11 @@ import java.util.List;
 
 public interface ExemplaireRepository extends JpaRepository<Exemplaire, Integer> {
     List<Exemplaire> findByLivre(Livre livre);
+    
+    /**
+     * Compte le nombre d'exemplaires par état
+     */
+    int countByEtat(String etat);
+
+    List<Exemplaire> findByLivreAndEtat(Livre livre, String etat);
 } 

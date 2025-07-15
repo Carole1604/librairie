@@ -33,4 +33,8 @@ public class ExemplaireService {
     public void deleteById(Integer id) {
         exemplaireRepository.deleteById(id);
     }
+
+    public List<Exemplaire> findDisponiblesByLivre(Livre livre) {
+        return exemplaireRepository.findByLivreAndEtat(livre, "disponible");
+    }
 } 

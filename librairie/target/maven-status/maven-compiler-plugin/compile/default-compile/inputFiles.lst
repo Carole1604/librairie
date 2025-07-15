@@ -1,5 +1,6 @@
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\InscriptionRepository.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\ParametrageGeneralRepository.java
+D:\github\librairie\librairie\src\main\java\com\bibliotheque\service\PretValidationService.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\RechercheController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\ParametrageController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\model\JourFerie.java
@@ -12,6 +13,7 @@ D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\StatutRe
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\service\PenaliteService.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\ExemplaireController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\PenaliteRepository.java
+D:\github\librairie\librairie\src\main\java\com\bibliotheque\service\FileUploadService.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\service\ExemplaireService.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\TableauDeBordRepository.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\PenaliteController.java
@@ -32,9 +34,11 @@ D:\github\librairie\librairie\src\main\java\com\bibliotheque\model\ParametrageGe
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\JourFerieRepository.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\repository\ProlongementPretRepository.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\model\Description.java
+D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\RetourController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\PortailAdherentController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\PretController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\CustomErrorController.java
+D:\github\librairie\librairie\src\main\java\com\bibliotheque\controller\ImageController.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\service\LivreService.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\model\Administrateur.java
 D:\github\librairie\librairie\src\main\java\com\bibliotheque\LibrairieApplication.java

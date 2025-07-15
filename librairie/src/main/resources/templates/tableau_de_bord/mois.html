@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tableau de Bord - Vue Mensuelle</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container-fluid mt-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-calendar-month"></i> Vue Mensuelle - [[${moisEnCours}]]</h2>
+        <div>
+            <a href="/tableau_de_bord/statistiques" class="btn btn-outline-primary me-2">
+                <i class="bi bi-graph-up"></i> Vue quotidienne
+            </a>
+            <a href="/tableau_de_bord/historique" class="btn btn-outline-secondary me-2">
+                <i class="bi bi-clock-history"></i> Historique
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="bi bi-house"></i> Accueil
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistiques mensuelles -->
+    <div th:if="${statsMois != null and !statsMois.empty}" class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <i class="bi bi-book text-primary" style="font-size: 2rem;"></i>
+                    <h4 class="card-title text-primary" 
+                        th:text="${#aggregates.sum(statsMois.![nombrePrets])}">0</h4>
+                    <p class="card-text">Total Prêts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <i class="bi bi-arrow-return-left text-success" style="font-size: 2rem;"></i>
+                    <h4 class="card-title text-success" 
+                        th:text="${#aggregates.sum(statsMois.![nombreRetours])}">0</h4>
+                    <p class="card-text">Total Retours</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar-check text-info" style="font-size: 2rem;"></i>
+                    <h4 class="card-title text-info" 
+                        th:text="${#aggregates.sum(statsMois.![nombreReservations])}">0</h4>
+                    <p class="card-text">Total Réservations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body text-center">
+                    <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+                    <h4 class="card-title text-warning" 
+                        th:text="${#aggregates.sum(statsMois.![nombrePenalites])}">0</h4>
+                    <p class="card-text">Total Pénalités</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique mensuel -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-graph-up"></i> Évolution mensuelle
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" width="800" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tableau détaillé du mois -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">
+                <i class="bi bi-table"></i> Détail par jour - [[${moisEnCours}]]
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Date</th>
+                            <th>Prêts</th>
+                            <th>Retours</th>
+                            <th>Réservations</th>
+                            <th>Pénalités</th>
+                            <th>Total Activité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="stat : ${statsMois}">
+                            <td>
+                                <i class="bi bi-calendar"></i>
+                                <span th:text="${#temporals.format(stat.dateStat, 'dd/MM/yyyy')}">Date</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary" th:text="${stat.nombrePrets}">0</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-success" th:text="${stat.nombreRetours}">0</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info" th:text="${stat.nombreReservations}">0</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning" th:text="${stat.nombrePenalites}">0</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-dark" 
+                                      th:text="${stat.nombrePrets + stat.nombreRetours + stat.nombreReservations + stat.nombrePenalites}">0</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr>
+                            <th>Total</th>
+                            <th><span class="badge bg-primary" th:text="${#aggregates.sum(statsMois.![nombrePrets])}">0</span></th>
+                            <th><span class="badge bg-success" th:text="${#aggregates.sum(statsMois.![nombreRetours])}">0</span></th>
+                            <th><span class="badge bg-info" th:text="${#aggregates.sum(statsMois.![nombreReservations])}">0</span></th>
+                            <th><span class="badge bg-warning" th:text="${#aggregates.sum(statsMois.![nombrePenalites])}">0</span></th>
+                            <th><span class="badge bg-dark" 
+                                     th:text="${#aggregates.sum(statsMois.![nombrePrets]) + #aggregates.sum(statsMois.![nombreRetours]) + #aggregates.sum(statsMois.![nombreReservations]) + #aggregates.sum(statsMois.![nombrePenalites])}">0</span></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+// Données pour le graphique mensuel
+const statsMois = /*[[${statsMois}]]*/ [];
+
+if (statsMois && statsMois.length > 0) {
+    const ctx = document.getElementById('monthlyChart').getContext('2d');
+    const labels = statsMois.map(stat => stat.dateStat).reverse();
+    const pretsData = statsMois.map(stat => stat.nombrePrets).reverse();
+    const retoursData = statsMois.map(stat => stat.nombreRetours).reverse();
+    const reservationsData = statsMois.map(stat => stat.nombreReservations).reverse();
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Prêts',
+                data: pretsData,
+                backgroundColor: 'rgba(13, 110, 253, 0.8)',
+                borderColor: 'rgb(13, 110, 253)',
+                borderWidth: 1
+            }, {
+                label: 'Retours',
+                data: retoursData,
+                backgroundColor: 'rgba(25, 135, 84, 0.8)',
+                borderColor: 'rgb(25, 135, 84)',
+                borderWidth: 1
+            }, {
+                label: 'Réservations',
+                data: reservationsData,
+                backgroundColor: 'rgba(13, 202, 240, 0.8)',
+                borderColor: 'rgb(13, 202, 240)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Activité du mois'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+</script>
+</body>
+</html> 

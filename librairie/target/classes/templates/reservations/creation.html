@@ -9,15 +9,13 @@
     <h2>Créer une Réservation</h2>
     <form th:action="@{/reservations/creation}" method="post">
         <div class="mb-3">
-            <label for="idAdherent" class="form-label">ID Adhérent</label>
-            <input type="number" class="form-control" id="idAdherent" name="adherent.id" required>
-        </div>
-        <div class="mb-3">
-            <label for="idLivre" class="form-label">ID Livre</label>
-            <input type="number" class="form-control" id="idLivre" name="livre.id" required>
+            <label for="idLivre" class="form-label">Livre à réserver</label>
+            <select class="form-control" id="idLivre" name="livre.id" required>
+                <option th:each="livre : ${livres}" th:value="${livre.id}" th:text="${livre.titre}"></option>
+            </select>
         </div>
         <button type="submit" class="btn btn-success">Créer</button>
-        <a th:href="@{/reservations/liste}" class="btn btn-secondary">Annuler</a>
+        <a th:href="@{/portail_adherent/reservations}" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 </body>

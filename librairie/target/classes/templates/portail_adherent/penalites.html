@@ -3,35 +3,117 @@
 <head>
     <title>Mes Pénalités</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Mes Pénalités</h2>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date début</th>
-            <th>Date fin</th>
-            <th>Montant</th>
-            <th>Motif</th>
-            <th>Active</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="penalite : ${penalites}">
-            <td th:text="${penalite.id}"></td>
-            <td th:text="${penalite.dateDebut}"></td>
-            <td th:text="${penalite.dateFin}"></td>
-            <td th:text="${penalite.montant}"></td>
-            <td th:text="${penalite.motif}"></td>
-            <td>
-                <span th:if="${penalite.estActive}">Oui</span>
-                <span th:if="${!penalite.estActive}">Non</span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-exclamation-triangle text-danger"></i> Mes Pénalités</h2>
+        <div>
+            <a href="/portail-adherent" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour au portail
+            </a>
+        </div>
+    </div>
+    
+    <div th:if="${#lists.isEmpty(penalites)}" class="alert alert-info">
+        <i class="bi bi-info-circle"></i>
+        Vous n'avez aucune pénalité.
+    </div>
+    
+    <div th:if="${!#lists.isEmpty(penalites)}">
+        <!-- Résumé des pénalités -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-danger text-white">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            Pénalités actives
+                        </h5>
+                        <h3 th:text="${penalites.?[estActive == true].size()}">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">
+                            <i class="bi bi-clock-history"></i>
+                            Pénalités expirées
+                        </h5>
+                        <h3 th:text="${penalites.?[estActive == false].size()}">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Liste des pénalités -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Détail des pénalités</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                                            <th>Prêt #</th>
+                            <th>Jours de retard</th>
+                            <th>Date début</th>
+                            <th>Date fin</th>
+                            <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="penalite : ${penalites}" th:class="${penalite.estActive ? 'table-danger' : 'table-light'}">
+                            <td>
+                                <span class="badge bg-primary" th:text="${penalite.pret.id}"></span>
+                            </td>
+                            <td>
+                                <span class="badge bg-danger" th:text="${penalite.nombreJoursRetard + ' jour(s)'}"></span>
+                            </td>
+                            <td th:text="${#temporals.format(penalite.dateDebut, 'dd/MM/yyyy')}"></td>
+                            <td th:text="${#temporals.format(penalite.dateFin, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span th:if="${penalite.estActive}" class="badge bg-danger">
+                                    <i class="bi bi-exclamation-triangle"></i> Active
+                                </span>
+                                <span th:if="${!penalite.estActive}" class="badge bg-secondary">
+                                    <i class="bi bi-check-circle"></i> Expirée
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="@{'/penalites/details/' + ${penalite.id}}" class="btn btn-info btn-sm">
+                                    <i class="bi bi-eye"></i> Détails
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Informations importantes -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <h6><i class="bi bi-info-circle"></i> Informations importantes :</h6>
+                    <ul class="mb-0">
+                        <li>Pendant une pénalité active, vous ne pouvez pas emprunter de nouveaux livres</li>
+                        <li>Vous ne pouvez pas faire de réservations pendant une pénalité active</li>
+                        <li>Les pénalités sont calculées en excluant les week-ends et jours fériés</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

@@ -5,6 +5,7 @@ import com.bibliotheque.model.Pret;
 import com.bibliotheque.service.AuthentificationService;
 import com.bibliotheque.service.PretService;
 import com.bibliotheque.service.ExemplaireService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequestMapping("/portail_adherent")
@@ -25,6 +27,9 @@ public class PortailAdherentController {
     
     @Autowired
     private ExemplaireService exemplaireService;
+    
+    @Autowired
+    private com.bibliotheque.service.LivreService livreService;
     
     @GetMapping("/connexion")
     public String connexion() {
@@ -70,8 +75,17 @@ public class PortailAdherentController {
     }
 
     @GetMapping("/prets")
-    public String prets(Model model) {
-        // Charger les prêts de l'adhérent connecté
+    public String prets(Model model, jakarta.servlet.http.HttpSession session) {
+        // Récupérer l'adhérent connecté depuis la session
+        Adherent adherent = (Adherent) session.getAttribute("adherentConnecte");
+        if (adherent == null) {
+            return "redirect:/portail_adherent/connexion";
+        }
+        
+        // Charger uniquement les prêts de l'adhérent connecté
+        List<Pret> pretsAdherent = pretService.findByAdherent(adherent);
+        model.addAttribute("prets", pretsAdherent);
+        model.addAttribute("adherent", adherent);
         return "portail_adherent/prets";
     }
 
@@ -105,5 +119,43 @@ public class PortailAdherentController {
         model.addAttribute("adherents", java.util.List.of(adherent));
         model.addAttribute("exemplaires", exemplaireService.findAll());
         return "prets/creation";
+    }
+    
+    @PostMapping("/prets/creation")
+    public String creerPretPourAdherentConnecte(@ModelAttribute Pret pret, 
+                                               jakarta.servlet.http.HttpSession session,
+                                               Model model) {
+        Adherent adherent = (Adherent) session.getAttribute("adherentConnecte");
+        if (adherent == null) {
+            return "redirect:/portail_adherent/connexion";
+        }
+        
+        // S'assurer que le prêt est bien associé à l'adhérent connecté
+        pret.setAdherent(adherent);
+        
+        try {
+            // Utiliser la méthode de création avec validation
+            pretService.creerPret(pret);
+            return "redirect:/portail_adherent/prets";
+        } catch (Exception e) {
+            model.addAttribute("erreur", "Erreur lors de la création du prêt: " + e.getMessage());
+            model.addAttribute("pret", pret);
+            model.addAttribute("adherents", java.util.List.of(adherent));
+            model.addAttribute("exemplaires", exemplaireService.findAll());
+            return "prets/erreur";
+        }
+    }
+    
+    @GetMapping("/livres")
+    public String livres(Model model, jakarta.servlet.http.HttpSession session) {
+        Adherent adherent = (Adherent) session.getAttribute("adherentConnecte");
+        if (adherent == null) {
+            return "redirect:/portail_adherent/connexion";
+        }
+        
+        // Charger tous les livres (accessible aux adhérents)
+        model.addAttribute("livres", livreService.findAll());
+        model.addAttribute("adherent", adherent);
+        return "portail_adherent/livres";
     }
 } 

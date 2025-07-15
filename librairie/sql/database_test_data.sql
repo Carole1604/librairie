@@ -67,3 +67,13 @@ INSERT INTO penalite (date_debut, date_fin, id_pret, id_adherent, montant, motif
 -- Tableau de bord (exemple)
 INSERT INTO tableau_de_bord (date_stat, nombre_prets, nombre_retours, nombre_reservations, nombre_penalites, nombre_adherents_actifs, nombre_livres_disponibles) VALUES
 ('2025-07-01', 2, 0, 2, 1, 2, 3); 
+
+INSERT INTO exemplaire (nom_exemplaire, id_livre, etat, date_acquisition, localisation, code_barre) VALUES
+('EX005', 8, 'disponible', '2023-01-15', 'Rayon A', 'BAR005');
+('EX002', 1, 'disponible', '2023-01-15', 'Rayon A', 'BAR002'),
+('EX003', 2, 'disponible', '2023-02-20', 'Rayon B', 'BAR003'),
+('EX004', 3, 'disponible', '2023-03-10', 'Rayon C', 'BAR004');
+
+INSERT INTO livre (titre, isbn, edition, auteur, annee_publication, editeur, nombre_exemplaires, age_minimum) VALUES
+('Star', '97820706', 'Plume', 'Antoine', 2014, 'Gallimard', 4, 14);
+

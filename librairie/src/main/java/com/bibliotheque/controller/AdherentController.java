@@ -87,4 +87,21 @@ public class AdherentController {
         model.addAttribute("exemplaires", exemplaireService.findAll());
         return "prets/creation";
     }
+    
+    @PostMapping("/{id}/prets/creation")
+    public String creerPretPourAdherent(@PathVariable Integer id, @ModelAttribute Pret pret, Model model) {
+        Adherent adherent = adherentService.findById(id).orElse(null);
+        pret.setAdherent(adherent);
+        
+        try {
+            pretService.creerPret(pret);
+            return "redirect:/prets/liste";
+        } catch (Exception e) {
+            model.addAttribute("erreur", "Erreur lors de la création du prêt: " + e.getMessage());
+            model.addAttribute("pret", pret);
+            model.addAttribute("adherents", List.of(adherent));
+            model.addAttribute("exemplaires", exemplaireService.findAll());
+            return "prets/erreur";
+        }
+    }
 } 

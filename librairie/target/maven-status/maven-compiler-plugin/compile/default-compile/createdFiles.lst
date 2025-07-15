@@ -1,5 +1,7 @@
 com\bibliotheque\controller\PortailAdminController.class
 com\bibliotheque\model\Description.class
+com\bibliotheque\controller\ImageController.class
+com\bibliotheque\service\PretValidationService$ValidationResult.class
 com\bibliotheque\model\ProlongementPret.class
 com\bibliotheque\model\ParametrageGeneral.class
 com\bibliotheque\controller\ExemplaireController.class
@@ -8,6 +10,7 @@ com\bibliotheque\service\JourFerieService.class
 com\bibliotheque\model\Livre.class
 com\bibliotheque\service\TableauDeBordService.class
 com\bibliotheque\controller\TableauDeBordController.class
+com\bibliotheque\controller\RetourController.class
 com\bibliotheque\controller\ParametrageController.class
 com\bibliotheque\service\RechercheService$LivreDescriptionDTO.class
 com\bibliotheque\service\ParametrageGeneralService.class
@@ -30,6 +33,7 @@ com\bibliotheque\repository\DescriptionRepository.class
 com\bibliotheque\model\Recherche.class
 com\bibliotheque\controller\AdherentController.class
 com\bibliotheque\service\AdherentService.class
+com\bibliotheque\service\PretValidationService.class
 com\bibliotheque\repository\AdministrateurRepository.class
 com\bibliotheque\model\TableauDeBord.class
 com\bibliotheque\controller\PortailAdherentController.class
@@ -45,6 +49,7 @@ com\bibliotheque\service\ExemplaireService.class
 com\bibliotheque\controller\ParametrageGeneralController.class
 com\bibliotheque\controller\CustomErrorController.class
 com\bibliotheque\model\Inscription.class
+com\bibliotheque\service\FileUploadService.class
 com\bibliotheque\repository\JourFerieRepository.class
 com\bibliotheque\controller\LivreController.class
 com\bibliotheque\model\Administrateur.class

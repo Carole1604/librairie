@@ -70,6 +70,8 @@ CREATE TABLE livre (
     date_ajout TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE livre ADD COLUMN IF NOT EXISTS image_path VARCHAR(500);
+
 -- Table Description
 CREATE TABLE description (
     id_description SERIAL PRIMARY KEY,
@@ -184,13 +186,58 @@ CREATE TABLE tableau_de_bord (
     UNIQUE(date_stat)
 ); 
 
--- Création de la table parametrage_general
+DROP TABLE IF EXISTS parametrage_general CASCADE;
+
+-- Créer la nouvelle table avec tous les champs nécessaires
 CREATE TABLE parametrage_general (
     id SERIAL PRIMARY KEY,
-    duree_pret INTEGER NOT NULL,
-    limite_emprunt INTEGER NOT NULL
+    
+    -- Durées de prêt par type d'adhérent (en jours)
+    duree_pret_etudiant INTEGER NOT NULL DEFAULT 14,
+    duree_pret_professionnel INTEGER NOT NULL DEFAULT 21,
+    duree_pret_anonyme INTEGER NOT NULL DEFAULT 7,
+    
+    -- Limites d'emprunt par type d'adhérent
+    quota_max_etudiant INTEGER NOT NULL DEFAULT 5,
+    quota_max_professionnel INTEGER NOT NULL DEFAULT 8,
+    quota_max_anonyme INTEGER NOT NULL DEFAULT 2,
+    
+    -- Paramètres généraux
+    duree_prolongation INTEGER NOT NULL DEFAULT 7,
+    nombre_prolongations_max INTEGER NOT NULL DEFAULT 1
 );
 
--- Insertion d'une ligne par défaut (optionnel)
-INSERT INTO parametrage_general (duree_pret, limite_emprunt) 
-VALUES (14, 5);
+-- Insérer les valeurs par défaut
+INSERT INTO parametrage_general (
+    duree_pret_etudiant,
+    duree_pret_professionnel,
+    duree_pret_anonyme,
+    quota_max_etudiant,
+    quota_max_professionnel,
+    quota_max_anonyme,
+    duree_prolongation,
+    nombre_prolongations_max
+) VALUES (
+    14,  -- 2 semaines pour les étudiants
+    21,  -- 3 semaines pour les professionnels
+    7,   -- 1 semaine pour les anonymes
+    5,   -- 5 livres max pour les étudiants
+    8,   -- 8 livres max pour les professionnels
+    2,   -- 2 livres max pour les anonymes
+    7,   -- 7 jours de prolongation
+    1    -- 1 prolongation maximum
+);
+
+-- Vérifier la structure créée
+SELECT column_name, data_type, is_nullable, column_default 
+FROM information_schema.columns 
+WHERE table_name = 'parametrage_general' 
+ORDER BY ordinal_position;
+
+-- Afficher les données insérées
+SELECT * FROM parametrage_general; 
+
+CREATE INDEX idx_tableau_de_bord_date ON tableau_de_bord(date_stat);
+
+UPDATE exemplaire SET etat = 'disponible' WHERE id_exemplaire = 7;4
+SELECT * FROM exemplaire WHERE id_livre = <4>;

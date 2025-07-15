@@ -11,6 +11,7 @@
     <table class="table table-bordered">
         <thead>
         <tr>
+            <th>Image</th>
             <th>ID</th>
             <th>Titre</th>
             <th>Auteur</th>
@@ -20,11 +21,17 @@
         </thead>
         <tbody>
         <tr th:each="livre : ${livres}">
+            <td>
+                <img th:if="${livre.imagePath != null}" th:src="@{'/images/' + ${livre.imagePath}}" 
+                     alt="Couverture" class="img-thumbnail" style="max-width: 80px; max-height: 80px;">
+                <span th:if="${livre.imagePath == null}" class="text-muted">Aucune image</span>
+            </td>
             <td th:text="${livre.id}"></td>
             <td th:text="${livre.titre}"></td>
             <td th:text="${livre.auteur}"></td>
             <td th:text="${livre.isbn}"></td>
             <td>
+                <a th:href="@{'/livres/details/' + ${livre.id}}" class="btn btn-info btn-sm">Détails</a>
                 <a th:href="@{'/livres/modifier/' + ${livre.id}}" class="btn btn-warning btn-sm">Modifier</a>
                 <a th:href="@{'/livres/supprimer/' + ${livre.id}}" class="btn btn-danger btn-sm">Supprimer</a>
             </td>

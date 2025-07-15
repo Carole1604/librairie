@@ -14,4 +14,9 @@ public interface AdherentRepository extends JpaRepository<Adherent, Integer> {
     
     @Query("SELECT a FROM Adherent a WHERE a.login = :login AND a.motDePasse = :motDePasse")
     Optional<Adherent> findByLoginAndMotDePasse(@Param("login") String login, @Param("motDePasse") String motDePasse);
+    
+    /**
+     * Compte le nombre d'adhérents actifs
+     */
+    int countByEstActifTrue();
 } 

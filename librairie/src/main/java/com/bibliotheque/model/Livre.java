@@ -33,6 +33,9 @@ public class Livre {
     @Column(name = "age_minimum")
     private Integer ageMinimum = 0;
 
+    @Column(name = "image_path", length = 500)
+    private String imagePath;
+
     @Column(name = "date_ajout")
     private LocalDateTime dateAjout = LocalDateTime.now();
 
@@ -64,6 +67,10 @@ public class Livre {
 
     public Integer getAgeMinimum() {
         return ageMinimum;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public LocalDateTime getDateAjout() {
@@ -104,6 +111,10 @@ public class Livre {
 
     public void setAgeMinimum(Integer ageMinimum) {
         this.ageMinimum = ageMinimum;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void setDateAjout(LocalDateTime dateAjout) {

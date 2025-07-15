@@ -27,9 +27,6 @@ public class Penalite {
     @JoinColumn(name = "id_adherent")
     private Adherent adherent;
 
-    @Column(name = "montant")
-    private Double montant;
-
     @Column(name = "motif")
     private String motif;
 
@@ -58,9 +55,6 @@ public class Penalite {
 
     public Adherent getAdherent() { return adherent; }
     public void setAdherent(Adherent adherent) { this.adherent = adherent; }
-
-    public Double getMontant() { return montant; }
-    public void setMontant(Double montant) { this.montant = montant; }
 
     public String getMotif() { return motif; }
     public void setMotif(String motif) { this.motif = motif; }

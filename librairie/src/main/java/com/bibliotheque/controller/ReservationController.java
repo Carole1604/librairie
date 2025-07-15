@@ -1,7 +1,12 @@
 package com.bibliotheque.controller;
 
 import com.bibliotheque.model.Reservation;
+import com.bibliotheque.model.Adherent;
+import com.bibliotheque.model.Statut;
 import com.bibliotheque.service.ReservationService;
+import com.bibliotheque.service.LivreService;
+import com.bibliotheque.service.AdherentService;
+import com.bibliotheque.repository.StatutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private LivreService livreService;
+    @Autowired
+    private AdherentService adherentService;
+    @Autowired
+    private StatutRepository statutRepository;
 
     @GetMapping("")
     public String index() {
@@ -32,13 +43,25 @@ public class ReservationController {
     @GetMapping("/creation")
     public String creationForm(Model model) {
         model.addAttribute("reservation", new Reservation());
+        model.addAttribute("livres", livreService.findAll());
         return "reservations/creation";
     }
 
     @PostMapping("/creation")
-    public String creerReservation(@ModelAttribute Reservation reservation) {
+    public String creerReservation(@ModelAttribute Reservation reservation, jakarta.servlet.http.HttpSession session) {
+        // Récupérer l'adhérent connecté depuis la session
+        Adherent adherent = (Adherent) session.getAttribute("adherentConnecte");
+        if (adherent == null) {
+            return "redirect:/portail_adherent/connexion";
+        }
+        reservation.setAdherent(adherent);
+        // Initialiser la date de réservation
+        reservation.setDateReservation(java.time.LocalDate.now());
+        // Initialiser le statut à 'en_cours' (id = 1)
+        Statut statutEnCours = statutRepository.findById(1).orElse(null);
+        reservation.setStatut(statutEnCours);
         reservationService.save(reservation);
-        return "redirect:/reservations/liste";
+        return "redirect:/portail_adherent/reservations";
     }
 
     @GetMapping("/validation/{id}")

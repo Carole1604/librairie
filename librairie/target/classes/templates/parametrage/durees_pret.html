@@ -3,26 +3,169 @@
 <head>
     <title>Paramétrage des Durées de Prêt</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Configuration des Durées de Prêt</h2>
-    <form th:action="@{/parametrage/durees_pret}" method="post">
-        <div class="mb-3">
-            <label class="form-label">Étudiant</label>
-            <input type="number" class="form-control" placeholder="Durée de prêt (jours)" min="1" name="dureeEtudiant" th:value="${dureeEtudiant}">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-clock"></i> Configuration des Durées de Prêt</h2>
+        <div>
+            <a href="/parametrage/limites_emprunt" class="btn btn-outline-primary me-2">
+                <i class="bi bi-list-check"></i> Limites d'emprunt
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="bi bi-house"></i> Accueil
+            </a>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Professionnel</label>
-            <input type="number" class="form-control" placeholder="Durée de prêt (jours)" min="1" name="dureeProfessionnel" th:value="${dureeProfessionnel}">
+    </div>
+
+    <!-- Messages de succès/erreur -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-gear"></i> Durées de prêt par type d'adhérent
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/parametrage/durees_pret}" method="post" th:object="${parametrage}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-mortarboard text-primary"></i> Étudiant
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" 
+                                               th:field="*{dureePretEtudiant}" 
+                                               min="1" max="365" 
+                                               placeholder="14">
+                                        <span class="input-group-text">jours</span>
+                                    </div>
+                                    <small class="text-muted">Durée par défaut : 14 jours (2 semaines)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-briefcase text-success"></i> Professionnel
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" 
+                                               th:field="*{dureePretProfessionnel}" 
+                                               min="1" max="365" 
+                                               placeholder="21">
+                                        <span class="input-group-text">jours</span>
+                                    </div>
+                                    <small class="text-muted">Durée par défaut : 21 jours (3 semaines)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-person text-warning"></i> Anonyme
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" 
+                                               th:field="*{dureePretAnonyme}" 
+                                               min="1" max="365" 
+                                               placeholder="7">
+                                        <span class="input-group-text">jours</span>
+                                    </div>
+                                    <small class="text-muted">Durée par défaut : 7 jours (1 semaine)</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-arrow-clockwise text-info"></i> Durée de prolongation
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" 
+                                               th:field="*{dureeProlongation}" 
+                                               min="1" max="30" 
+                                               placeholder="7">
+                                        <span class="input-group-text">jours</span>
+                                    </div>
+                                    <small class="text-muted">Durée ajoutée lors d'une prolongation</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-repeat text-secondary"></i> Nombre max de prolongations
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" 
+                                               th:field="*{nombreProlongationsMax}" 
+                                               min="0" max="5" 
+                                               placeholder="1">
+                                        <span class="input-group-text">fois</span>
+                                    </div>
+                                    <small class="text-muted">Nombre maximum de prolongations autorisées</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Enregistrer les modifications
+                            </button>
+                            <a href="/" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Anonyme</label>
-            <input type="number" class="form-control" placeholder="Durée de prêt (jours)" min="1" name="dureeAnonyme" th:value="${dureeAnonyme}">
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="bi bi-info-circle"></i> Informations
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <h6>Types d'adhérents :</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-mortarboard text-primary"></i> <strong>Étudiant :</strong> Durée plus courte</li>
+                        <li><i class="bi bi-briefcase text-success"></i> <strong>Professionnel :</strong> Durée plus longue</li>
+                        <li><i class="bi bi-person text-warning"></i> <strong>Anonyme :</strong> Durée limitée</li>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <h6>Prolongations :</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-arrow-clockwise"></i> <strong>Durée :</strong> Jours ajoutés</li>
+                        <li><i class="bi bi-repeat"></i> <strong>Limite :</strong> Nombre maximum</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
-        <a th:href="@{/}" class="btn btn-secondary">Annuler</a>
-    </form>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

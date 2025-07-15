@@ -7,7 +7,7 @@
 <body>
 <div class="container mt-5">
     <h2>Modifier un Livre</h2>
-    <form th:action="@{/livres/modifier}" method="post">
+    <form th:action="@{/livres/modifier}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" th:value="${livre.id}" />
         <div class="mb-3">
             <label for="titre" class="form-label">Titre</label>
@@ -36,6 +36,15 @@
         <div class="mb-3">
             <label for="ageMinimum" class="form-label">Âge minimum</label>
             <input type="number" class="form-control" id="ageMinimum" name="ageMinimum" min="0" th:value="${livre.ageMinimum}">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image de couverture</label>
+            <div th:if="${livre.imagePath != null}" class="mb-2">
+                <img th:src="@{'/images/' + ${livre.imagePath}}" alt="Couverture actuelle" class="img-thumbnail" style="max-width: 200px; max-height: 200px;">
+                <p class="text-muted">Image actuelle</p>
+            </div>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <div class="form-text">Laissez vide pour conserver l'image actuelle. Formats acceptés : JPG, PNG, GIF.</div>
         </div>
         <button type="submit" class="btn btn-success">Enregistrer</button>
         <a th:href="@{/livres/liste}" class="btn btn-secondary">Annuler</a>

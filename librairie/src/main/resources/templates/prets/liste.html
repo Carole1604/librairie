@@ -7,7 +7,11 @@
 <body>
 <div class="container mt-5">
     <h2>Liste des Prêts en cours</h2>
-    <a th:href="@{/prets/creation}" class="btn btn-primary mb-3">Nouveau prêt</a>
+    <div class="mb-3">
+        <a th:href="@{/prets/creation}" class="btn btn-primary">Nouveau prêt</a>
+        <a th:href="@{/retours/liste}" class="btn btn-info">Voir les retours</a>
+        <a th:href="@{/prolongements/liste}" class="btn btn-warning">Prolongements</a>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -31,7 +35,13 @@
             <td th:text="${pret.dateRenduReelle}"></td>
             <td th:text="${pret.typePret}"></td>
             <td>
-                <a th:href="@{'/prets/retour/' + ${pret.id}}" class="btn btn-success btn-sm">Retour</a>
+                <th:block th:if="${pret.dateRenduReelle == null}">
+                    <a th:href="@{'/retours/retour/' + ${pret.id}}" class="btn btn-success btn-sm">Retour</a>
+                    <a th:href="@{'/prolongements/demande?pretId=' + ${pret.id}}" class="btn btn-warning btn-sm">Prolonger</a>
+                </th:block>
+                <th:block th:if="${pret.dateRenduReelle != null}">
+                    <span class="badge bg-secondary">Retourné</span>
+                </th:block>
             </td>
         </tr>
         </tbody>

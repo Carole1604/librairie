@@ -29,6 +29,9 @@
             <td>
                 <a th:href="@{'/reservations/validation/' + ${reservation.id}}" class="btn btn-success btn-sm">Valider</a>
                 <a th:href="@{'/reservations/annulation/' + ${reservation.id}}" class="btn btn-danger btn-sm">Annuler</a>
+                <a th:if="${reservation.statut != null and reservation.statut.nomStatut == 'valide'}"
+                   th:href="@{'/prets/creation/reservation/' + ${reservation.id}}"
+                   class="btn btn-primary btn-sm ms-1">Créer un prêt</a>
             </td>
         </tr>
         </tbody>

@@ -1,0 +1,23 @@
+# Fichiers uploadés
+uploads/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
+# Fichiers de build Maven
+target/
+*.class
+
+# Fichiers IDE
+.idea/
+*.iml
+.vscode/
+
+# Fichiers de logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.temp 
