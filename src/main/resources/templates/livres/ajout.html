@@ -7,7 +7,7 @@
 <body>
 <div class="container mt-5">
     <h2>Ajouter un Livre</h2>
-    <form th:action="@{/livres/ajout}" method="post">
+    <form th:action="@{/livres/ajout}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="titre" class="form-label">Titre</label>
             <input type="text" class="form-control" id="titre" name="titre" required>
@@ -35,6 +35,11 @@
         <div class="mb-3">
             <label for="ageMinimum" class="form-label">Âge minimum</label>
             <input type="number" class="form-control" id="ageMinimum" name="ageMinimum" min="0">
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image de couverture</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+            <div class="form-text">Formats acceptés : JPG, PNG, GIF. Taille maximale : 5MB</div>
         </div>
         <button type="submit" class="btn btn-success">Ajouter</button>
         <a th:href="@{/livres/liste}" class="btn btn-secondary">Annuler</a>

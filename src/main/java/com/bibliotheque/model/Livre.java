@@ -16,7 +16,7 @@ public class Livre {
     private String titre;
 
     @Column(name = "isbn", unique = true)
-    private Integer isbn;
+    private String isbn;
 
     @Column(name = "edition", length = 100)
     private String edition;
@@ -33,6 +33,9 @@ public class Livre {
     @Column(name = "age_minimum")
     private Integer ageMinimum = 0;
 
+    @Column(name = "image_path", length = 500)
+    private String imagePath;
+
     @Column(name = "date_ajout")
     private LocalDateTime dateAjout = LocalDateTime.now();
 
@@ -46,7 +49,7 @@ public class Livre {
         return titre;
     }
 
-    public Integer getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
@@ -66,6 +69,10 @@ public class Livre {
         return ageMinimum;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
     public LocalDateTime getDateAjout() {
         return dateAjout;
     }
@@ -74,5 +81,65 @@ public class Livre {
         return auteur;
     }
 
-    // Getters et setters omis pour la concision
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+    public void setAnneePublication(Integer anneePublication) {
+        this.anneePublication = anneePublication;
+    }
+
+    public void setNombreExemplaires(Integer nombreExemplaires) {
+        this.nombreExemplaires = nombreExemplaires;
+    }
+
+    public void setAgeMinimum(Integer ageMinimum) {
+        this.ageMinimum = ageMinimum;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setDateAjout(LocalDateTime dateAjout) {
+        this.dateAjout = dateAjout;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Livre livre = (Livre) o;
+        return Objects.equals(id, livre.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Livre{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", isbn='" + isbn + '\'' +
+                '}';
+    }
 } 
