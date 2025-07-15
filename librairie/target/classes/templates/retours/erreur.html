@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Erreur Retour</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Erreur lors du retour</h2>
+    <div class="alert alert-danger">
+        <p th:text="${erreur}"></p>
+    </div>
+    <a th:href="@{/prets/liste}" class="btn btn-primary">Retour aux prêts</a>
+</div>
+</body>
+</html> 
