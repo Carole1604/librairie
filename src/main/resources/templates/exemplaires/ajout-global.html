@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un exemplaire</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Ajouter un exemplaire</h2>
+    <form th:action="@{/exemplaires/ajout-global}" th:object="${exemplaire}" method="post">
+        <div class="mb-3">
+            <label for="livre">Livre</label>
+            <select th:field="*{livre.id}" class="form-control" required>
+                <option th:each="livre : ${livres}" th:value="${livre.id}" th:text="${livre.titre}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="nomExemplaire">Nom de l'exemplaire</label>
+            <input type="text" th:field="*{nomExemplaire}" class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label for="etat">État</label>
+            <select th:field="*{etat}" class="form-control">
+                <option value="disponible">Disponible</option>
+                <option value="emprunte">Emprunté</option>
+                <option value="reserve">Réservé</option>
+                <option value="en_reparation">En réparation</option>
+                <option value="perdu">Perdu</option>
+                <option value="retire">Retiré</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="dateAcquisition">Date d'acquisition</label>
+            <input type="date" th:field="*{dateAcquisition}" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="localisation">Localisation</label>
+            <input type="text" th:field="*{localisation}" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="codeBarre">Code-barre</label>
+            <input type="text" th:field="*{codeBarre}" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a th:href="@{/exemplaires/liste}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+</body>
+</html> 

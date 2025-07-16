@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Validation Prolongement</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Validation d'une Demande de Prolongement</h2>
+    
+    <div class="card mb-4" th:if="${prolongement != null}">
+        <div class="card-header">
+            <h5>Détails de la Demande</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Adhérent :</strong> 
+                        <span th:text="${prolongement.pret != null and prolongement.pret.adherent != null ? prolongement.pret.adherent.nom + ' ' + prolongement.pret.adherent.prenom : 'N/A'}"></span>
+                    </p>
+                    <p><strong>Livre :</strong> 
+                        <span th:text="${prolongement.pret != null and prolongement.pret.exemplaire != null and prolongement.pret.exemplaire.livre != null ? prolongement.pret.exemplaire.livre.titre : 'N/A'}"></span>
+                    </p>
+                    <p><strong>Date de fin prévue actuelle :</strong> 
+                        <span th:text="${prolongement.pret != null and prolongement.pret.dateFinPrevue != null ? #temporals.format(prolongement.pret.dateFinPrevue, 'dd/MM/yyyy') : 'N/A'}"></span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Date de demande :</strong> 
+                        <span th:text="${prolongement.dateDemande != null ? #temporals.format(prolongement.dateDemande, 'dd/MM/yyyy') : 'N/A'}"></span>
+                    </p>
+                    <p><strong>Nouvelle date demandée :</strong> 
+                        <span th:text="${prolongement.nouvelleDateRendu != null ? #temporals.format(prolongement.nouvelleDateRendu, 'dd/MM/yyyy') : 'N/A'}"></span>
+                    </p>
+                    <p><strong>Prêt déjà prolongé :</strong> 
+                        <span th:if="${prolongement.pret != null and prolongement.pret.estProlonge != null and prolongement.pret.estProlonge}" class="badge bg-warning">Oui</span>
+                        <span th:if="${prolongement.pret == null or prolongement.pret.estProlonge == null or !prolongement.pret.estProlonge}" class="badge bg-success">Non</span>
+                    </p>
+                    <p><strong>Statut actuel :</strong> 
+                        <span th:if="${prolongement.statut != null and prolongement.statut.nomStatut == 'en_cours'}" class="badge bg-warning">En attente</span>
+                        <span th:if="${prolongement.statut != null and prolongement.statut.nomStatut == 'valide'}" class="badge bg-success">Validé</span>
+                        <span th:if="${prolongement.statut != null and prolongement.statut.nomStatut == 'refuse'}" class="badge bg-danger">Refusé</span>
+                        <span th:if="${prolongement.statut == null}" class="badge bg-secondary">Non défini</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div th:if="${prolongement == null}" class="alert alert-danger">
+        Prolongement non trouvé.
+    </div>
+    
+    <form th:if="${prolongement != null}" th:action="@{/prolongements/validation}" method="post">
+        <input type="hidden" name="id" th:value="${prolongement.id}" />
+        <input type="hidden" name="pret.id" th:value="${prolongement.pret != null ? prolongement.pret.id : ''}" />
+        
+        <div class="mb-3">
+            <label for="statut" class="form-label">Décision</label>
+            <select class="form-control" id="statut" name="statut.id" required>
+                <option value="">Choisir une décision</option>
+                <option value="2">Validé</option>
+                <option value="3">Refusé</option>
+            </select>
+        </div>
+        
+        <div class="mb-3" id="motifRefusGroup" style="display: none;">
+            <label for="motifRefus" class="form-label">Motif du refus</label>
+            <textarea class="form-control" id="motifRefus" name="motifRefus" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-success">Enregistrer la décision</button>
+        <a th:href="@{/prolongements/liste}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<script>
+document.getElementById('statut').addEventListener('change', function() {
+    const motifGroup = document.getElementById('motifRefusGroup');
+    if (this.value === '3') { // Refusé
+        motifGroup.style.display = 'block';
+        document.getElementById('motifRefus').required = true;
+    } else {
+        motifGroup.style.display = 'none';
+        document.getElementById('motifRefus').required = false;
+    }
+});
+</script>
+</body>
+</html> 
